@@ -97,7 +97,7 @@ RULE TestRule NOT A ? C := true : C:=false
 #### Functions
 ```
 fn DoSomething(A) do
-  PRINT A AND false
+   A AND false
 end
 
 A := false
