@@ -34,7 +34,14 @@ cd Feasible
 ```makefile
 make
 ```
-
+**Step 3: Create a file**:
+*For example, test.fsl:*
+```feasible
+A := true
+B :=  false IMPLIES NOT A
+FACT X := A NXOR B
+PRINT X
+```
 **Step 3: Run the CLI**
 *On Linux and macOS:*
 ```cli
