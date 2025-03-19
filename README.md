@@ -134,6 +134,7 @@ Thank you for your interest in contributing to **Feasible**! If you're intereste
 **How ​​to contribute?**
 
 1. **Report an issue:** If you find a bug or have an idea for a new feature, open an issue in the repository. Be sure to provide as much detail as possible so we can replicate the problem or understand the improvement proposal.
+
 **How ​​to open an issue**
 * Go to the ***Issues*** tab in the repository.
 * Click "New Issue".
