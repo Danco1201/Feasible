@@ -103,3 +103,12 @@ end
 A := false
 X := DoSomething A
 PRINT X
+
+#### User-defined Operators
+```feasible
+binop CUSTOM(A, B) do
+   NOT A AND NOT A XOR B
+end
+FACT X := true CUSTOM false
+PRINT X
+```
