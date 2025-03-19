@@ -18,7 +18,7 @@ PRINT X
 
 ## Development
 
-Feasible is still under development. Contributions are always welcome!
+Feasible is still under development. Contributions are always welcome! If you want to contribute, please read [Contributing](#contributing)
 
 ## Instalation
 ### Requirements
@@ -113,3 +113,32 @@ end
 FACT X := true CUSTOM false
 PRINT X // prints "false"
 ```
+## Contributing
+
+Thank you for your interest in contributing to **Feasible**! If you're interested in helping develop the language, here are some steps to get started:
+
+**How ​​to contribute?**
+
+1. **Report an issue:** If you find a bug or have an idea for a new feature, open an issue in the repository. Be sure to provide as much detail as possible so we can replicate the problem or understand the improvement proposal.
+**How ​​to open an issue**
+* Go to the ***Issues*** tab in the repository.
+* Click "New Issue".
+* Use a template if available, or describe the issue or feature you want to propose.
+2. **Submit a pull request:** : If you have changes you'd like to share with the project, you can create a pull request. Be sure to follow these steps:
+
+**Steps for a Pull Request:**
+* Fork the repository and clone your fork to your local machine.
+* Create a new branch (with a descriptive name) for the changes you're going to make.
+* Make your code changes.
+* Add tests to ensure your changes don't break anything (if possible).
+* Make sure your code complies with the project's style guidelines.
+* Make a clear and descriptive commit of your changes.
+* Push your changes to your fork and open a pull request in the original repository.
+
+3. **Testing**: If you want to test the language locally before submitting your changes, follow the steps in [Installation Steps](#installation-steps).
+
+4. **Code Sytle**: Please follow the following style rules when contributing:
+
+**Conventions:**
+* **Variable Names**: Use uppercase for variables and facts and CamelCase for functions (not yet implemented).
+* **Comments**: Only if you are adding a **new feature** or idea, document the code by explaining its function.
