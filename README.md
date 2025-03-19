@@ -18,7 +18,7 @@ PRINT X
 
 ## Development
 
-Solidity is still under development. Contributions are always welcome!
+Feasible is still under development. Contributions are always welcome!
 
 ## Instalation
 ### Requirements
