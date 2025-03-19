@@ -113,6 +113,13 @@ end
 FACT X := true CUSTOM false
 PRINT X // prints "false"
 ```
+
+### Compile to C
+```bash
+feasible.exe --compile my_program.fsl -o output.c
+gcc output.c -o my_program
+my_program.exe
+```
 ## Contributing
 
 Thank you for your interest in contributing to **Feasible**! If you're interested in helping develop the language, here are some steps to get started:
