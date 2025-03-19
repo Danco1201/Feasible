@@ -91,8 +91,9 @@ PRINT X
 
 #### Rules
 ```feasible
-A := false
-RULE TestRule NOT A ? C := true : C:=false
+A := true
+B:= false
+RULE TestRule A AND B ? C := true : C:=false
 ```
 #### Functions
 ```
