@@ -20,6 +20,21 @@ PRINT X
 
 Feasible is still under development. Contributions are always welcome! If you want to contribute, please read [Contributing](#contributing)
 
+## Recent Features
+### Rules
+```feasible
+A := true
+B:= false
+RULE TestRule A AND B ? C := true : C:=false
+```
+### Functions
+```
+fn doSomething a a AND false
+
+A := false
+X := DoSomething A
+PRINT X
+```
 ## Instalation
 ### Requirements
 * Feasible is written in C, so a compiler like the GNU Collection Compiler (GCC) is required.
@@ -96,22 +111,7 @@ PRINT X
 
 ### Future Features
 
-#### Rules
-```feasible
-A := true
-B:= false
-RULE TestRule A AND B ? C := true : C:=false
-```
-#### Functions
-```
-fn doSomething(A) do
-   A AND false
-end
 
-A := false
-X := DoSomething A
-PRINT X
-```
 #### User-defined Operators
 ```feasible
 binop CUSTOM(A, B) do
@@ -127,6 +127,7 @@ feasible.exe --compile my_program.fsl -o output.c
 gcc output.c -o my_program
 my_program.exe
 ```
+
 ## Contributing
 
 Thank you for your interest in contributing to **Feasible**! If you're interested in helping develop the language, here are some steps to get started:
