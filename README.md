@@ -29,10 +29,11 @@ RULE TestRule A AND B ? C := true : C:=false
 ```
 ### Functions
 ```
-fn doSomething a a AND false
+fn doSomething a
+   a AND false
 
 A := false
-X := DoSomething A
+X := doSomething A
 PRINT X
 ```
 ## Instalation
