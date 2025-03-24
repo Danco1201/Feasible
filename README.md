@@ -104,7 +104,7 @@ RULE TestRule A AND B ? C := true : C:=false
 ```
 #### Functions
 ```
-fn DoSomething(A) do
+fn doSomething(A) do
    A AND false
 end
 
