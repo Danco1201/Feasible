@@ -20,8 +20,6 @@ PRINT X
 
 Feasible is still under development. Contributions are always welcome! If you want to contribute, please read [Contributing](#contributing)
 
-## Recent Features
-
 ## Instalation
 ### Requirements
 * Feasible is written in C, so a compiler like the GNU Collection Compiler (GCC) is required.
