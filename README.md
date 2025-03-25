@@ -21,22 +21,7 @@ PRINT X
 Feasible is still under development. Contributions are always welcome! If you want to contribute, please read [Contributing](#contributing)
 
 ## Recent Features
-### Rules
-```feasible
-A := true
-B:= false
-RULE TestRule A AND B ? C := true : C:=false
-```
-### Functions
-```
-fn doSomething a b
-   a AND NOT b
 
-A := false
-B := true
-FACT X := doSomething A B
-PRINT X
-```
 ## Instalation
 ### Requirements
 * Feasible is written in C, so a compiler like the GNU Collection Compiler (GCC) is required.
@@ -110,7 +95,30 @@ FACT X := true
 FACT X := false // this will throw an error
 PRINT X
 ```
+### Rules
+**Rules** in Feasible are logical statements that establish relationships between Boolean elements. Simply put, a rule is a fact (or constant) that can store a Boolean condition (true or false). If condition X is met, consequence Y will occur; otherwise, consequence Z will occur. It is the equivalent of the ternary operator in C.
+Syntax:
 
+``` feasible
+RULE <RuleName> <cond X> ? <consq Y> : <consq Z>
+```
+
+Example:
+```feasible
+A := true
+B:= false
+RULE TestRule A AND B ? C := true : C:=false
+```
+### Functions
+```
+fn doSomething a b
+   a AND NOT b
+
+A := false
+B := true
+FACT X := doSomething A B
+PRINT X // false
+```
 ### Future Features
 
 
