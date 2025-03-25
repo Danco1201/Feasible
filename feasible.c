@@ -22,7 +22,7 @@ typedef struct {
 
 typedef struct {
     char name[20];
-    char params[20][20];  // Parametros de la funcion
+    char params[20][20];  
     int param_count;
     char body[100];
 } Function;
