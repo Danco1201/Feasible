@@ -3,11 +3,9 @@
 #include <stdbool.h>
 #include <stdlib.h>
 
-#define MAX_VARS 100
-#define MAX_FACTS 100
-#define MAX_FUNCTIONS 10
-#define MAX_RULES 10
-#define MAX_FILENAME_LENGTH 100
+#define MAX 100
+#define MAX2 10
+#define MAXF 100
 
 typedef struct {
     char name[20];
@@ -34,10 +32,10 @@ typedef struct {
     char elseblock[50];
 } Rule;
 
-Variable variables[MAX_VARS];
-Fact facts[MAX_FACTS];
-Function functions[MAX_FUNCTIONS];
-Rule rules[MAX_RULES];
+Variable variables[MAX];
+Fact facts[MAX];
+Function functions[MAX2];
+Rule rules[MAX2];
 
 int var_count = 0;
 int fact_count = 0;
@@ -49,26 +47,21 @@ bool implies(bool a, bool b) {
 }
 
 bool evaluate(char *expr) {
-    // Aquí deberías expandir la evaluación a las expresiones lógicas más complejas
-    // Por ahora solo maneja las variables y valores booleanos
     if (strcmp(expr, "true") == 0) return true;
     if (strcmp(expr, "false") == 0) return false;
     
-    // Buscar variable
     for (int i = 0; i < var_count; i++) {
         if (strcmp(variables[i].name, expr) == 0) {
             return variables[i].value;
         }
     }
-    // Buscar hecho (fact)
     for (int i = 0; i < fact_count; i++) {
         if (strcmp(facts[i].name, expr) == 0) {
             return facts[i].value;
         }
     }
     
-    return false; // Error, si no se encontró, retornamos un valor falso
-}
+    return false; 
 
 void set_variable(const char *name, bool value) {
     for (int i = 0; i < var_count; i++) {
@@ -124,11 +117,8 @@ bool evaluate_rule(Rule rule) {
 }
 
 void execute_function(const Function *func) {
-    // Aquí ejecutas la función pasando los parámetros
-    // Este es un ejemplo básico, necesitas evaluar el cuerpo de la función usando sus parámetros
-    // Por ahora solo simula una ejecución sencilla
     bool result = evaluate(func->body);
-    printf("Resultado de la función %s: %s\n", func->name, result ? "true" : "false");
+    printf("%s %s\n", func->name, result ? "true" : "false");
 }
 
 int find_fact(const char *name) {
