@@ -131,7 +131,7 @@ int find_fact(const char *name) {
 }
 
 void execute_line(char *line) {
-    char var[20], expr[50], condition[50], consequence[50], elseblock[50];
+    char var[20], fact1[20], expr[50], condition[50], consequence[50], elseblock[50];
     char params[10][20];
     int param_count;
 
@@ -142,15 +142,18 @@ void execute_line(char *line) {
         char name[20];
         char body[100];
         sscanf(line, "fn %19s", name);
-        // Aquí podrías procesar los parámetros y cuerpo
         set_function(name, params, param_count, body);
     } else if (strstr(line, ":=") != NULL) {
         sscanf(line, "%19s := %49[^\n]", var, expr);
-        set_variable(var, evaluate(expr));
+        set_variable(var, evaluate(expr)); 
+        
     } else if (strncmp(line, "PRINT", 5) == 0) {
         char print_expr[50];
         sscanf(line, "PRINT %49s", print_expr);
         printf("%s\n", evaluate(print_expr) ? "true" : "false");
+    } else if (strncmp(line, "FACT %19s :=", 4) == 0) {
+        sscanf(line, "FACT %19s := %49[^\n]", fact1, expr);
+        set_fact(fact1, evaluate(expr));
     } else {
         printf("Syntax Error\n");
     }
