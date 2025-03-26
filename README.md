@@ -118,7 +118,7 @@ Where name is the name of the function, params are the parameters (separated by 
 Here's an example:
 ```
 fn doSomething a b
-a AND NOT b
+   a AND NOT b
 ```
 To run this function, you can do it in three ways:
 Print it simply:
