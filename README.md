@@ -111,7 +111,7 @@ RULE TestRule A AND B ? C := true : C:=false
 Functions in Feasible are a type of code block that allows you to reuse and organize code more efficiently. They are defined with the following syntax:
 ``` feasible
 fn <name> <[params]>
-<body>
+   <body>
 ```
 Where name is the name of the function, params are the parameters (separated by a space), and body is the body.
 
