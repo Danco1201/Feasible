@@ -108,15 +108,28 @@ B:= false
 RULE TestRule A AND B ? C := true : C:=false
 ```
 ### Functions
+Functions in Feasible are a type of code block that allows you to reuse and organize code more efficiently. They are defined with the following syntax:
+``` feasible
+fn <name> <[params]>
+<body>
+```
+Where name is the name of the function, params are the parameters (separated by a space), and body is the body.
+
+Here's an example:
 ```
 fn doSomething a b
-   a AND NOT b
-
-A := false
-B := true
-FACT X := doSomething A B
-PRINT X // false
+a AND NOT b
 ```
+To run this function, you can do it in three ways:
+Print it simply:
+PRINT doSomething true false
+Variables:
+A := true
+B := false
+FACT X := doSomething A B
+PRINT X
+and recreate it manually:
+PRINT true and NOT false
 ### Future Features
 
 
