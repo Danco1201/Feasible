@@ -3,9 +3,9 @@
 #include <stdbool.h>
 #include <stdlib.h>
 
-#define MAX_VARS 100
-#define MAX_FACTS 100
-#define MAX_FILENAME_LENGTH 100
+#define MAX 100
+#define MAX2 10
+#define MAXF 100
 
 typedef struct {
     char name[20];
@@ -18,41 +18,110 @@ typedef struct {
     bool is_set;
 } Fact;
 
-Variable variables[MAX_VARS];
-Fact facts[MAX_FACTS];
+typedef struct {
+    char name[20];
+    char params[20][20];  
+    int param_count;
+    char body[100];
+} Function;
+
+typedef struct {
+    char name[20];
+    char condition[50];
+    char consequence[50];
+    char elseblock[50];
+} Rule;
+
+Variable variables[MAX];
+Fact facts[MAX];
+Function functions[MAX2];
+Rule rules[MAX2];
+
 int var_count = 0;
 int fact_count = 0;
+int func_count = 0;
+int rule_count = 0;
 
 bool implies(bool a, bool b) {
     return !a || b;
 }
 
-bool xand(bool a, bool b) {
-    return !(a && b) || (a && b);
-}
-
-bool nand(bool a, bool b) {
-    return !(a && b);
-}
-
-bool nor(bool a, bool b) {
-    return !(a || b);
-}
-
-bool xnor(bool a, bool b) {
-    return a == b;
-}
-
-int findvar(const char *name) {
+bool evaluate(char *expr) {
+    if (strcmp(expr, "true") == 0) return true;
+    if (strcmp(expr, "false") == 0) return false;
+    
     for (int i = 0; i < var_count; i++) {
-        if (strcmp(variables[i].name, name) == 0) {
-            return i;
+        if (strcmp(variables[i].name, expr) == 0) {
+            return variables[i].value;
         }
     }
-    return -1;
+    for (int i = 0; i < fact_count; i++) {
+        if (strcmp(facts[i].name, expr) == 0) {
+            return facts[i].value;
+        }
+    }
+    
+    return false; 
+
+void set_variable(const char *name, bool value) {
+    for (int i = 0; i < var_count; i++) {
+        if (strcmp(variables[i].name, name) == 0) {
+            variables[i].value = value;
+            return;
+        }
+    }
+    strcpy(variables[var_count].name, name);
+    variables[var_count].value = value;
+    var_count++;
 }
 
-int findfact(const char *name) {
+void set_fact(const char *name, bool value) {
+    for (int i = 0; i < fact_count; i++) {
+        if (strcmp(facts[i].name, name) == 0) {
+            facts[i].value = value;
+            return;
+        }
+    }
+    strcpy(facts[fact_count].name, name);
+    facts[fact_count].value = value;
+    facts[fact_count].is_set = true;
+    fact_count++;
+}
+
+void set_rule(const char *name, const char *condition, const char *consequence, const char *elseblock) {
+    strcpy(rules[rule_count].name, name);
+    strcpy(rules[rule_count].condition, condition);
+    strcpy(rules[rule_count].consequence, consequence);
+    strcpy(rules[rule_count].elseblock, elseblock);
+    rule_count++;
+}
+
+void set_function(const char *name, const char *params[], int param_count, const char *body) {
+    strcpy(functions[func_count].name, name);
+    functions[func_count].param_count = param_count;
+    for (int i = 0; i < param_count; i++) {
+        strcpy(functions[func_count].params[i], params[i]);
+    }
+    strcpy(functions[func_count].body, body);
+    func_count++;
+}
+
+bool evaluate_rule(Rule rule) {
+    bool condition_value = evaluate(rule.condition);
+    if (condition_value) {
+        set_fact(rule.name, evaluate(rule.consequence));
+    } else {
+        set_fact(rule.name, evaluate(rule.elseblock));
+    }
+    return facts[find_fact(rule.name)].value;
+}
+
+void execute_function(const Function *func) {
+    bool result = evaluate(func->body);
+    printf("%s %s\n", func->name, result ? "true" : "false");
+}
+
+int find_fact(const char *name) {
     for (int i = 0; i < fact_count; i++) {
         if (strcmp(facts[i].name, name) == 0) {
             return i;
@@ -61,72 +130,27 @@ int findfact(const char *name) {
     return -1;
 }
 
-bool get_value(const char *expr) {
-    if (strcmp(expr, "true") == 0) return true;
-    if (strcmp(expr, "false") == 0) return false;
-    
-    int index = findvar(expr);
-    if (index != -1) return variables[index].value;
-
-    int fact_index = findfact(expr);
-    if (fact_index != -1) return facts[fact_index].value;
-    
-    printf("ERROR: Undefined variable or fact %s\n", expr);
-    return false;
-}
-
-void set_variable(const char *name, bool value) {
-    int index = findvar(name);
-    if (index != -1) {
-        variables[index].value = value;
-    } else {
-        strcpy(variables[var_count].name, name);
-        variables[var_count].value = value;
-        var_count++;
-    }
-}
-
-void set_fact(const char *name, bool value) {
-    int index = findfact(name);
-    if (index != -1) {
-        if (facts[index].is_set) {
-            printf("ERROR: Fact %s cannot be modified once set.\n", name);
-        } else {
-            facts[index].value = value;
-            facts[index].is_set = true;
-        }
-    } else {
-        strcpy(facts[fact_count].name, name);
-        facts[fact_count].value = value;
-        facts[fact_count].is_set = true;
-        fact_count++;
-    }
-}
-
-bool evaluate(char *expr) {
-    char left[20], right[20];
-    if (sscanf(expr, "%19s AND %19s", left, right) == 2) return get_value(left) && get_value(right);
-    if (sscanf(expr, "%19s OR %19s", left, right) == 2) return get_value(left) || get_value(right);
-    if (sscanf(expr, "NOT %19s", left) == 1) return !get_value(left);
-    if (sscanf(expr, "%19s IMPLIES %19s", left, right) == 2) return implies(get_value(left), get_value(right));
-    if (sscanf(expr, "%19s XOR %19s", left, right) == 2) return get_value(left) != get_value(right);
-    if (sscanf(expr, "%19s XAND %19s", left, right) == 2) return xand(get_value(left), get_value(right));
-    if (sscanf(expr, "%19s NAND %19s", left, right) == 2) return nand(get_value(left), get_value(right));
-    if (sscanf(expr, "%19s NOR %19s", left, right) == 2) return nor(get_value(left), get_value(right));
-    if (sscanf(expr, "%19s XNOR %19s", left, right) == 2) return xnor(get_value(left), get_value(right));
-    return get_value(expr);
-}
-
 void execute_line(char *line) {
-    char var[20], expr[50];
-    if (strncmp(line, "FACT", 4) == 0) {
-        sscanf(line, "FACT %19s := %49[^\n]", var, expr);
-        set_fact(var, evaluate(expr));
+    char var[20], expr[50], condition[50], consequence[50], elseblock[50];
+    char params[10][20];
+    int param_count;
+
+    if (strncmp(line, "RULE", 4) == 0) {
+        sscanf(line, "RULE %19s %49s ? %49s : %49s", var, condition, consequence, elseblock);
+        set_rule(var, condition, consequence, elseblock);
+    } else if (strncmp(line, "fn", 2) == 0) {
+        char name[20];
+        char body[100];
+        sscanf(line, "fn %19s", name);
+        // Aquí podrías procesar los parámetros y cuerpo
+        set_function(name, params, param_count, body);
     } else if (strstr(line, ":=") != NULL) {
         sscanf(line, "%19s := %49[^\n]", var, expr);
         set_variable(var, evaluate(expr));
     } else if (strncmp(line, "PRINT", 5) == 0) {
-        printf("%s\n", evaluate(line + 6) ? "true" : "false");
+        char print_expr[50];
+        sscanf(line, "PRINT %49s", print_expr);
+        printf("%s\n", evaluate(print_expr) ? "true" : "false");
     } else {
         printf("Syntax Error\n");
     }
@@ -140,22 +164,6 @@ void run_code(const char *code) {
         execute_line(buffer);
     }
     fclose(stream);
-}
-
-void execute_from_file(const char *filename) {
-    FILE *file = fopen(filename, "r");
-    if (!file) {
-        printf("ERROR: Could not open file %s\n", filename);
-        return;
-    }
-
-    char line[100];
-    while (fgets(line, sizeof(line), file)) {
-        line[strcspn(line, "\n")] = 0;  
-        execute_line(line);
-    }
-
-    fclose(file);
 }
 
 int main(int argc, char *argv[]) {

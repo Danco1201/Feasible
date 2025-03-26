@@ -93,25 +93,46 @@ FACT X := true
 FACT X := false // this will throw an error
 PRINT X
 ```
+### Rules
+**Rules** in Feasible are logical statements that establish relationships between Boolean elements. Simply put, a rule is a fact (or constant) that can store a Boolean condition (true or false). If condition X is met, consequence Y will occur; otherwise, consequence Z will occur. It is the equivalent of the ternary operator in C.
+Syntax:
 
-### Future Features
+``` feasible
+RULE <RuleName> <cond X> ? <consq Y> : <consq Z>
+```
 
-#### Rules
+Example:
 ```feasible
 A := true
 B:= false
 RULE TestRule A AND B ? C := true : C:=false
 ```
-#### Functions
+### Functions
+Functions in Feasible are a type of code block that allows you to reuse and organize code more efficiently. They are defined with the following syntax:
+``` feasible
+fn <name> <[params]>
+   <body>
 ```
-fn doSomething(A) do
-   A AND false
-end
+Where name is the name of the function, params are the parameters (separated by a space), and body is the body.
 
-A := false
-X := DoSomething A
-PRINT X
+Here's an example:
 ```
+fn doSomething a b
+a AND NOT b
+```
+To run this function, you can do it in three ways:
+Print it simply:
+PRINT doSomething true false
+Variables:
+A := true
+B := false
+FACT X := doSomething A B
+PRINT X
+and recreate it manually:
+PRINT true and NOT false
+### Future Features
+
+
 #### User-defined Operators
 ```feasible
 binop CUSTOM(A, B) do
@@ -127,6 +148,7 @@ feasible.exe --compile my_program.fsl -o output.c
 gcc output.c -o my_program
 my_program.exe
 ```
+
 ## Contributing
 
 Thank you for your interest in contributing to **Feasible**! If you're interested in helping develop the language, here are some steps to get started:
@@ -155,5 +177,5 @@ Thank you for your interest in contributing to **Feasible**! If you're intereste
 4. **Code Sytle**: Please follow the following style rules when contributing:
 
 **Conventions:**
-* **Variable Names**: Use uppercase for variables and facts and CamelCase for functions (not yet implemented).
+* **Variable Names**: Use uppercase for variables and facts, camelCase for functions and DromedaryCase for rules.
 * **Comments**: Only if you are adding a **new feature** or idea, document the code by explaining its function.
