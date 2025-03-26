@@ -4,6 +4,7 @@ Feasible is a programming language purely oriented toward propositional logic.
 This language is designed to simplify binary and logical operations, with a syntax suitable for both beginners and experts.
 
 ## Examples
+### Hello World
 Strings may not be printable, so there is no "Hello, World!", but here is a simple program written in Feasible:
 ```feasible
 A := true
@@ -14,8 +15,16 @@ FACT X := A OR D
 PRINT D
 PRINT X
 ```
-
-
+### P implies Q
+``` feasible
+// First option
+P := true
+RULE PImpliesQ P ? Q := true : false
+// Second option
+P := true
+Q := false
+FACT PIMPQ := P IMPLIES Q
+```
 ## Development
 
 Feasible is still under development. Contributions are always welcome! If you want to contribute, please read [Contributing](#contributing)
