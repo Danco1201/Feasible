@@ -177,5 +177,5 @@ Thank you for your interest in contributing to **Feasible**! If you're intereste
 4. **Code Sytle**: Please follow the following style rules when contributing:
 
 **Conventions:**
-* **Variable Names**: Use uppercase for variables and facts and CamelCase for functions (not yet implemented).
+* **Variable Names**: Use uppercase for variables and facts, camelCase for functions and DromedaryCase for rules.
 * **Comments**: Only if you are adding a **new feature** or idea, document the code by explaining its function.
